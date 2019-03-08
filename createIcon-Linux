@@ -1,0 +1,17 @@
+1. Criar um arquivo .desktop(ex. studio.desktop)no diretório ~/.local/share/applications/ e preencher com o seguinte conteúdo:
+
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Studio
+Comment=AdiantiStudioComFramework-v5.5
+Icon=/home/tharles/studio2/favicon.png
+Exec=/home/tharles/studio2/main.sh 
+StartupNotify=false
+Terminal=false
+
+OBS: no item Icon= deve-se informar o caminho do ícone localizado na pasta do studio e no item Exec= caminho do script que inicia o studio. 
+2. Mudar a permissão do arquivo: sudo chmod 777 studio.desktop 
+3. Efetuar logout 
+4. Se todos esses procedimentos deram certo, depois de efetuar o login você poderá encontrar o ícone do Studio no buscador de aplicativos do ubuntu. 
+5. Clique e arraste o icone do studio até o lançador depois solte.

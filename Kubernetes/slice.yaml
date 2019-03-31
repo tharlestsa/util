@@ -1,0 +1,70 @@
+--- # Criação do cluster virtual (namespace) 
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: slice-tharles
+---
+
+--- # Criação do serviço para conta do usuário 
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tharles-user
+  namespace: slice-tharles
+  
+---
+
+--- #Definindo a regra de acesso do usuário 
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: tharles-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: tharles-user
+  namespace: slice-tharles
+--- 
+
+--- # Criação do deployment de teste 
+apiVersion: v1
+kind: Service
+metadata:
+  name: changeman
+  namespace: slice-tharles
+  labels:
+    app: changeman
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    name: http
+    nodePort: 30301
+  selector:
+    app: changeman
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: changeman-v1
+  namespace: slice-tharles
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: changeman
+        version: v1
+    spec:
+      containers:
+      - name: changeman
+        image: tharles/changeman:1.8
+        imagePullPolicy: IfNotPresent #Always
+        ports:
+        - containerPort: 80
+
+
+
